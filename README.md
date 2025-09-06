@@ -2,7 +2,7 @@
 
 Simple Flask backend + HTML frontend for mapping AYUSH diseases to FHIR format with NAMASTE and ICD codes.
 
-## ?📁 Project Structure
+## 📁 Project Structure
 ```
 AYUSH API/
 ├── backend/
@@ -18,13 +18,12 @@ AYUSH API/
 ##  How to Run
 
 ### Step 1: Install Flask
-```bash
+```
 cd backend
 pip install -r requirements.txt
-```
 
 ### Step 2: Start Backend Server
-```bash
+```
 cd backend
 python app.py
 ```
