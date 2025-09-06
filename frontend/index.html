@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYUSH Disease Mapping System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            color: #666;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-section {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .result-header {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            border-left: 5px solid #4CAF50;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .json-output {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 0 0 10px 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            overflow-x: auto;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .error {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #c53030;
+        }
+
+        .success {
+            background: #f0fff4;
+            border: 1px solid #c6f6d5;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #38a169;
+        }
+
+        .available-diseases {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 8px;
+            border-left: 4px solid #4299e1;
+        }
+
+        .available-diseases h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .disease-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .disease-tag {
+            background: #4299e1;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .disease-tag:hover {
+            background: #3182ce;
+        }
+
+        .api-status {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .api-online {
+            background: #f0fff4;
+            color: #38a169;
+            border: 1px solid #c6f6d5;
+        }
+
+        .api-offline {
+            background: #fff5f5;
+            color: #c53030;
+            border: 1px solid #fed7d7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 AYUSH Disease Mapping</h1>
+            <p>Map AYUSH diseases to FHIR-compliant format with NAMASTE and ICD codes</p>
+        </div>
+
+        <div class="form-section">
+            <div id="apiStatus" class="api-status">
+                <span id="statusText">Checking API status...</span>
+            </div>
+
+            <form id="diseaseForm">
+                <div class="form-group">
+                    <label for="diseaseInput">Enter Disease Name:</label>
+                    <input 
+                        type="text" 
+                        id="diseaseInput" 
+                        name="disease" 
+                        placeholder="e.g., Amavata, Madhumeha, Sandhigata Vata"
+                        required
+                    >
+                </div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Map Disease to FHIR
+                </button>
+            </form>
+
+            <div class="loading" id="loadingDiv">
+                <div class="spinner"></div>
+                <p>Processing your request...</p>
+            </div>
+
+            <div class="result-section" id="resultSection">
+                <div class="result-header" id="resultHeader">
+                    FHIR Mapping Result
+                </div>
+                <div class="json-output" id="jsonOutput"></div>
+            </div>
+
+            <div id="errorDiv"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://127.0.0.1:5000';
+        
+        // Check API status on page load
+        window.addEventListener('DOMContentLoaded', checkApiStatus);
+        
+        async function checkApiStatus() {
+            const statusDiv = document.getElementById('apiStatus');
+            const statusText = document.getElementById('statusText');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                if (response.ok) {
+                    statusDiv.className = 'api-status api-online';
+                    statusText.textContent = '✅ API is online and ready';
+                } else {
+                    throw new Error('API not responding correctly');
+                }
+            } catch (error) {
+                statusDiv.className = 'api-status api-offline';
+                statusText.textContent = '❌ API is offline. Please start the Flask server first.';
+                console.error('API Status Check Error:', error);
+            }
+        }
+
+        document.getElementById('diseaseForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const diseaseInput = document.getElementById('diseaseInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingDiv = document.getElementById('loadingDiv');
+            const resultSection = document.getElementById('resultSection');
+            const jsonOutput = document.getElementById('jsonOutput');
+            const errorDiv = document.getElementById('errorDiv');
+            const resultHeader = document.getElementById('resultHeader');
+            
+            // Clear previous results
+            errorDiv.innerHTML = '';
+            resultSection.style.display = 'none';
+            
+            // Get the disease name
+            const diseaseName = diseaseInput.value.trim();
+            
+            if (!diseaseName) {
+                showError('Please enter a disease name');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+            loadingDiv.style.display = 'block';
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/map_disease`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        disease: diseaseName
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Success - show the FHIR result
+                    resultHeader.textContent = `FHIR Mapping Result for "${diseaseName}"`;
+                    jsonOutput.textContent = JSON.stringify(data, null, 2);
+                    resultSection.style.display = 'block';
+                    
+                    showSuccess(`Successfully mapped "${diseaseName}" to FHIR format!`);
+                } else {
+                    // Error from API
+                    if (data.available_diseases) {
+                        showErrorWithSuggestions(data.error, data.available_diseases);
+                    } else {
+                        showError(data.error || 'An error occurred while processing your request');
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                showError(`Connection error: ${error.message}. Please ensure the Flask server is running on ${API_BASE_URL}`);
+            } finally {
+                // Reset loading state
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Map Disease to FHIR';
+                loadingDiv.style.display = 'none';
+            }
+        });
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('errorDiv');
+            errorDiv.innerHTML = `<div class="error">${message}</div>`;
+        }
+        
+        function showSuccess(message) {
+            const errorDiv = document.getElementById('errorDiv');
+            errorDiv.innerHTML = `<div class="success">${message}</div>`;
+        }
+        
+        function showErrorWithSuggestions(message, availableDiseases) {
+            const errorDiv = document.getElementById('errorDiv');
+            
+            let diseasesList = '';
+            if (availableDiseases && availableDiseases.length > 0) {
+                const diseaseTags = availableDiseases.map(disease => 
+                    `<span class="disease-tag" onclick="selectDisease('${disease}')">${disease}</span>`
+                ).join('');
+                
+                diseasesList = `
+                    <div class="available-diseases">
+                        <h4>Available diseases (click to try):</h4>
+                        <div class="disease-list">${diseaseTags}</div>
+                    </div>
+                `;
+            }
+            
+            errorDiv.innerHTML = `
+                <div class="error">
+                    ${message}
+                    ${diseasesList}
+                </div>
+            `;
+        }
+        
+        function selectDisease(diseaseName) {
+            document.getElementById('diseaseInput').value = diseaseName;
+            // Optionally auto-submit
+            // document.getElementById('diseaseForm').dispatchEvent(new Event('submit'));
+        }
+
+        // Allow Enter key to submit from input field
+        document.getElementById('diseaseInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('diseaseForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+{
+  "Amavata": {
+    "namaste_code": "AY001",
+    "namaste_description": "Amavata - Rheumatoid arthritis in Ayurveda",
+    "icd_code": "M06.9",
+    "icd_description": "Rheumatoid arthritis, unspecified",
+    "system": "Ayurveda",
+    "category": "Musculoskeletal disorders"
+  },
+  "Sandhigata Vata": {
+    "namaste_code": "AY002",
+    "namaste_description": "Sandhigata Vata - Osteoarthritis in Ayurveda",
+    "icd_code": "M19.9",
+    "icd_description": "Arthrosis, unspecified",
+    "system": "Ayurveda",
+    "category": "Musculoskeletal disorders"
+  },
+  "Madhumeha": {
+    "namaste_code": "AY003",
+    "namaste_description": "Madhumeha - Diabetes mellitus in Ayurveda",
+    "icd_code": "E14.9",
+    "icd_description": "Unspecified diabetes mellitus without complications",
+    "system": "Ayurveda",
+    "category": "Endocrine disorders"
+  },
+  "Pandu": {
+    "namaste_code": "AY004",
+    "namaste_description": "Pandu - Anemia in Ayurveda",
+    "icd_code": "D64.9",
+    "icd_description": "Anemia, unspecified",
+    "system": "Ayurveda",
+    "category": "Blood disorders"
+  },
+  "Yakrit Roga": {
+    "namaste_code": "AY005",
+    "namaste_description": "Yakrit Roga - Liver disorders in Ayurveda",
+    "icd_code": "K76.9",
+    "icd_description": "Liver disease, unspecified",
+    "system": "Ayurveda",
+    "category": "Digestive disorders"
+  },
+  "Prameha": {
+    "namaste_code": "AY006",
+    "namaste_description": "Prameha - Urinary disorders in Ayurveda",
+    "icd_code": "N39.9",
+    "icd_description": "Disorder of urinary system, unspecified",
+    "system": "Ayurveda",
+    "category": "Genitourinary disorders"
+  },
+  "Hridaya Roga": {
+    "namaste_code": "AY007",
+    "namaste_description": "Hridaya Roga - Heart diseases in Ayurveda",
+    "icd_code": "I25.9",
+    "icd_description": "Chronic ischemic heart disease, unspecified",
+    "system": "Ayurveda",
+    "category": "Cardiovascular disorders"
+  },
+  "Jwara": {
+    "namaste_code": "AY008",
+    "namaste_description": "Jwara - Fever in Ayurveda",
+    "icd_code": "R50.9",
+    "icd_description": "Fever, unspecified",
+    "system": "Ayurveda",
+    "category": "General symptoms"
+  },
+  "Kasa": {
+    "namaste_code": "AY009",
+    "namaste_description": "Kasa - Cough in Ayurveda",
+    "icd_code": "R05",
+    "icd_description": "Cough",
+    "system": "Ayurveda",
+    "category": "Respiratory disorders"
+  },
+  "Swasa": {
+    "namaste_code": "AY010",
+    "namaste_description": "Swasa - Breathing disorders/Asthma in Ayurveda",
+    "icd_code": "J45.9",
+    "icd_description": "Asthma, unspecified",
+    "system": "Ayurveda",
+    "category": "Respiratory disorders"
+  }
+}

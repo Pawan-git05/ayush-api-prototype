@@ -1,39 +1,55 @@
-# Sudoku Solver
+# 🌿 AYUSH Disease Mapping System
 
-A simple sudoku solver implemented in Python that uses backtracking algorithm to solve 9x9 sudoku puzzles.
+A simple Flask backend + HTML frontend for mapping AYUSH diseases to FHIR format with NAMASTE and ICD codes.
 
-## Features
-
-- Solves standard 9x9 sudoku puzzles
-- Uses backtracking algorithm for efficient solving
-- Validates puzzle input and solution
-- Pretty prints the solved puzzle
-
-## Usage
-
-```python
-python sudoku_solver.py
+## 📁 Project Structure
+```
+AYUSH API/
+├── backend/
+│   ├── app.py              # Flask API server
+│   ├── mappings.json       # Disease mappings data
+│   └── requirements.txt    # Python dependencies
+├── frontend/
+│   └── index.html          # Web interface
+└── README.md              # This file
 ```
 
-The solver will run with the example puzzle included in the code. To solve your own puzzle, modify the `puzzle` variable in the `sudoku_solver.py` file.
+## 🚀 How to Run
 
-## Puzzle Format
-
-Puzzles should be represented as a 9x9 list of lists, where:
-- Empty cells are represented by 0
-- Numbers 1-9 represent the given clues
-
-Example:
-```python
-puzzle = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
-]
+### Step 1: Install Flask
+```bash
+cd backend
+pip install -r requirements.txt
 ```
+
+### Step 2: Start Backend Server
+```bash
+cd backend
+python app.py
+```
+✅ Server runs at: `http://127.0.0.1:5000`
+
+### Step 3: Open Frontend
+Double-click `frontend/index.html` to open in your browser
+
+### Step 4: Test the System
+1. Enter disease name (e.g., "Amavata")
+2. Click "Map Disease to FHIR"
+3. View FHIR JSON result
+
+## 🧪 Available Diseases to Test
+- Amavata
+- Sandhigata Vata  
+- Madhumeha
+- Pandu
+- Yakrit Roga
+- Jwara
+- Kasa
+- Swasa
+
+## 🔗 API Endpoint
+- **POST** `/map_disease`
+- **Input**: `{"disease": "Amavata"}`
+- **Output**: FHIR JSON with NAMASTE + ICD mapping
+
+That's it! 🎉
